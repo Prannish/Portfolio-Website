@@ -16,7 +16,7 @@ app.set('trust proxy', 1);
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://www.pranishranjit.com.np',
   credentials: true
 }));
 app.use(express.json());
@@ -29,7 +29,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

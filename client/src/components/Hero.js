@@ -90,7 +90,7 @@ const Hero = () => {
             Full Stack Developer
           </motion.h2>
           <motion.p variants={itemVariants}>
-            As a Bachelor’s in Computer Applications (BCA) student, I am actively engaged in the dynamic and ever-evolving field of technology. I have built web applications using the MERN stack, with strong hands-on experience in React for developing modern, responsive user interfaces. Additionally, I have learned Spring Boot, enabling me to design and develop robust backend services and scalable application architectures. Driven by continuous improvement and practical problem solving, I am committed to delivering efficient and innovative digital solutions.
+            As a Bachelor’s in Computer Applications (BCA) student, I am actively engaged in the dynamic and ever evolving field of technology. I have built web applications using the MERN stack, with strong hands on experience in React for developing modern, responsive user interfaces. Additionally, I have learned Spring Boot, enabling me to design and develop robust backend services and scalable application architectures. Driven by continuous improvement and practical problem solving, I am committed to delivering efficient and innovative digital solutions.
           </motion.p>
 
           <motion.div className="hero-buttons" variants={itemVariants}>

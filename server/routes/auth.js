@@ -1,21 +1,29 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const Admin = require('../models/Admin');
 const router = express.Router();
 
-// Simple login (in production, use proper user management)
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  
-  // Check credentials (replace with your actual credentials)
-  if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+
+  try {
+    const admin = await Admin.findOne({ username });
+    if (!admin) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const isValid = await bcrypt.compare(password, admin.password);
+    if (!isValid) return res.status(401).json({ message: 'Invalid credentials' });
+
     const token = jwt.sign(
-      { username }, 
+      { username: admin.username },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
+
     res.json({ token });
-  } else {
-    res.status(401).json({ message: 'Invalid credentials' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
