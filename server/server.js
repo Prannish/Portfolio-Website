@@ -12,19 +12,26 @@ const PORT = process.env.PORT || 5000;
 
 // Trust proxy for rate limiting
 app.set('trust proxy', 1);
-
-// Middleware
 app.use(helmet());
+
 app.use(cors({
-  origin: 'https://www.pranishranjit.com.np',
-  credentials: true
+  origin: [
+    "https://www.pranishranjit.com.np",
+    "https://pranishranjit.com.np"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.options("*", cors());
 app.use(express.json());
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 500,
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use(limiter);
 
