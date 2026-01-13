@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaDownload } from 'react-icons/fa';
 import ProjectCard from '../components/ProjectCard';
-import axios from 'axios';
+
+// ✅ USE CENTRAL API CONFIG
+import api, { projectsAPI } from '../api';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -13,37 +15,37 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  const handleDownload = async () => {
-    try {
-      const response = await fetch('/api/resume/download');
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'resume.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      } else {
-        alert('Resume not found.');
-      }
-    } catch (error) {
-      console.error('Download failed:', error);
-      alert('Download failed. Please try again.');
-    }
-  };
-
+  // ✅ FIXED: use api.js (absolute backend URL)
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('/api/projects');
+      const response = await projectsAPI.getAll();
       setProjects(response.data);
     } catch (error) {
       console.error('Error fetching projects:', error);
       setProjects([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ FIXED: resume download works in production
+  const handleDownload = async () => {
+    try {
+      const response = await api.get('/resume/download', {
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(response.data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Download failed. Please try again.');
     }
   };
 
@@ -72,7 +74,6 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
         >
           <h1>My Projects</h1>
-          
 
           <button
             onClick={handleDownload}
@@ -103,7 +104,7 @@ const Projects = () => {
         <div className="projects-grid">
           {filteredProjects.map((project, index) => (
             <ProjectCard
-              key={index}
+              key={project._id || index}
               project={project}
               index={index}
             />
