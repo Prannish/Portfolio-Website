@@ -32,7 +32,7 @@ const Certifications = () => {
         </p>
       </div>
     );
-  }
+  } 
 
   return (
     <div className="certifications-page">
@@ -54,8 +54,10 @@ const Certifications = () => {
   alt={cert.title}
   className="cert-image"
   loading="lazy"
+  crossOrigin="anonymous"
   onError={(e) => { e.currentTarget.style.display = 'none'; }}
 />
+
 
                 </div>
               )}
