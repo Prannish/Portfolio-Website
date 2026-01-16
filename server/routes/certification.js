@@ -1,14 +1,26 @@
-// routes/certification.js
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const auth = require('../middleware/auth');
 const Certification = require('../models/Certification');
 
+/* ==========================
+   API BASE URL
+========================== */
+const BASE_API_URL =
+  process.env.API_BASE_URL
+    ? `${process.env.API_BASE_URL}/api`
+    : 'https://portfolio-website-2jvr.onrender.com/api';
+
+/* ==========================
+   Multer config
+========================== */
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// GET all certifications
+/* ==========================
+   GET all certifications (public)
+========================== */
 router.get('/', async (req, res) => {
   try {
     const certs = await Certification.find().sort({ issueDate: -1 });
@@ -18,7 +30,10 @@ router.get('/', async (req, res) => {
       return {
         ...obj,
         hasImage: !!(obj.image && obj.image.data),
-        image: undefined // remove raw buffer from response
+        imageUrl: obj.image
+          ? `${BASE_API_URL}/certifications/${obj._id}/image`
+          : null,
+        image: undefined // remove raw buffer
       };
     });
 
@@ -28,50 +43,64 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-// POST new certification (admin only)
+/* ==========================
+   POST new certification (admin)
+========================== */
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
     const { title, issuer, issueDate, url } = req.body;
     const newCert = new Certification({ title, issuer, issueDate, url });
 
     if (req.file) {
-      newCert.image.data = req.file.buffer;
-      newCert.image.contentType = req.file.mimetype;
+      newCert.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
     }
 
-    await newCert.save();
-    res.status(201).json(newCert);
+    const saved = await newCert.save();
+    const obj = saved.toObject();
+
+    res.status(201).json({
+      ...obj,
+      hasImage: !!obj.image,
+      imageUrl: obj.image
+        ? `${BASE_API_URL}/certifications/${obj._id}/image`
+        : null,
+      image: undefined
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to add certification' });
   }
 });
 
-// GET certification image (public)
+/* ==========================
+   GET certification image (public)
+========================== */
 router.get('/:id/image', async (req, res) => {
   try {
     const cert = await Certification.findById(req.params.id);
-    if (!cert || !cert.image || !cert.image.data)
+    if (!cert || !cert.image || !cert.image.data) {
       return res.status(404).send('No image found');
+    }
 
-    // ✅ Add CORS headers here for this route
-    res.setHeader('Access-Control-Allow-Origin', '*'); // allow all origins
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    // Set content type and cache
     res.setHeader('Content-Type', cert.image.contentType);
-    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day cache
+    res.setHeader('Cache-Control', 'public, max-age=86400');
 
-    res.send(cert.image.data);
+    res.end(cert.image.data);
   } catch (err) {
     console.error(err);
     res.status(500).send('Failed to fetch image');
   }
 });
 
-// DELETE certification
+/* ==========================
+   DELETE certification (admin)
+========================== */
 router.delete('/:id', auth, async (req, res) => {
   try {
     await Certification.findByIdAndDelete(req.params.id);
