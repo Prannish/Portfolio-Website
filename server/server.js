@@ -13,39 +13,50 @@ const PORT = process.env.PORT || 5000;
 // Trust proxy for rate limiting
 app.set('trust proxy', 1);
 
+// Helmet with contentSecurityPolicy enabled
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "img-src": [
+          "'self'",
+          "https://portfolio-website-2jvr.onrender.com",
+          "https://www.pranishranjit.com.np",
+          "data:",
+          "blob:"
+        ],
+        "script-src": [
+          "'self'",
+          "https://www.pranishranjit.com.np",
+          "'unsafe-inline'"
+        ],
+        "style-src": [
+          "'self'",
+          "https://www.pranishranjit.com.np",
+          "'unsafe-inline'"
+        ]
+      }
+    }
   })
 );
 
-
-// Content Security Policy to allow images from backend and inline data
-app.use((req, res, next) => {
- res.setHeader(
-  "Content-Security-Policy",
-  "default-src 'self'; " +
-  "img-src 'self' https://portfolio-website-2jvr.onrender.com data: blob:; " + // ✅ add blob: for images
-  "script-src 'self' https://www.pranishranjit.com.np 'unsafe-inline'; " +
-  "style-src 'self' https://www.pranishranjit.com.np 'unsafe-inline';"
-);
-
-  next();
-});
-
+// Global CORS
 app.use(cors({
   origin: [
     "https://www.pranishranjit.com.np",
-    "https://pranishranjit.com.np"
+    "https://pranishranjit.com.np",
+    "https://portfolio-website-2jvr.onrender.com"
   ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
 app.options('*', (req, res) => {
   res.sendStatus(200);
 });
+
 app.use(express.json());
 
 const limiter = rateLimit({
@@ -71,11 +82,12 @@ app.use('/api/experiences', require('./routes/experiences'));
 app.use('/api/resume', require('./routes/resume'));
 app.use('/api/certifications', require('./routes/certification'));
 
+// Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'alive' });
 });
 
-
+// Root
 app.get('/', (req, res) => {
   res.json({ message: 'Portfolio API is running!' });
 });
