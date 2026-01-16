@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 5000;
 
 // Trust proxy for rate limiting
 app.set('trust proxy', 1);
-const helmet = require("helmet");
 
 app.use(
   helmet({
