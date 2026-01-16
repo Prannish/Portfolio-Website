@@ -59,7 +59,10 @@ router.get('/:id/image', async (req, res) => {
     const cert = await Certification.findById(req.params.id);
     if (!cert || !cert.image || !cert.image.data) return res.status(404).send('No image found');
 
+    // ✅ Add CORS header here
+    res.set('Access-Control-Allow-Origin', '*'); // allow all origins
     res.set('Content-Type', cert.image.contentType);
+
     res.send(cert.image.data);
   } catch (err) {
     res.status(500).send('Failed to fetch image');

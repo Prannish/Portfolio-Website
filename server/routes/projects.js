@@ -109,7 +109,7 @@ router.get('/:id/image', async (req, res) => {
     if (!project || !project.image || !project.image.data) {
       return res.status(404).json({ message: 'Image not found' });
     }
-    
+      res.set('Access-Control-Allow-Origin', '*'); // or your frontend URL     
     res.set({
       'Content-Type': project.image.contentType,
       'Content-Length': project.image.data.length,
