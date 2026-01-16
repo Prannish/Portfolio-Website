@@ -1,6 +1,6 @@
 // client/src/pages/Admin.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import api from '../api'; // ✅ use your api instance
+import api from '../utils/api'; // 
 import Login from '../components/Login';
 
 const Admin = () => {
