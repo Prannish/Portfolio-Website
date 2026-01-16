@@ -1,13 +1,12 @@
-// routes/contact.js
 const express = require('express');
 const router = express.Router();
-const Message = require('../models/Message');
-const auth = require('../middleware/auth'); // Admin JWT auth
+const Contact = require('../models/Contact');
+const authMiddleware = require('../middleware/auth'); // admin auth
 
-// ================== GET ALL MESSAGES (ADMIN) ==================
-router.get('/', auth, async (req, res) => {
+// ================== GET ALL CONTACT MESSAGES (ADMIN) ==================
+router.get('/', authMiddleware, async (req, res) => {
   try {
-    const messages = await Message.find().sort({ createdAt: -1 });
+    const messages = await Contact.find().sort({ createdAt: -1 });
     res.json(messages);
   } catch (err) {
     console.error(err);
@@ -15,16 +14,17 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// ================== CREATE A NEW MESSAGE (PUBLIC) ==================
+// ================== CREATE NEW CONTACT MESSAGE (PUBLIC) ==================
 router.post('/', async (req, res) => {
   const { name, email, subject, message } = req.body;
+
   if (!name || !email || !subject || !message) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
-    const newMessage = new Message({ name, email, subject, message });
-    await newMessage.save();
+    const newContact = new Contact({ name, email, subject, message });
+    await newContact.save();
     res.status(201).json({ message: 'Message sent successfully' });
   } catch (err) {
     console.error(err);
@@ -32,30 +32,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ================== DELETE A MESSAGE (ADMIN) ==================
-router.delete('/:id', auth, async (req, res) => {
+// ================== DELETE MESSAGE (ADMIN) ==================
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    await Message.findByIdAndDelete(req.params.id);
+    await Contact.findByIdAndDelete(req.params.id);
     res.json({ message: 'Message deleted successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to delete message' });
-  }
-});
-
-// ================== OPTIONAL: UPDATE A MESSAGE (ADMIN) ==================
-router.put('/:id', auth, async (req, res) => {
-  const { name, email, subject, message } = req.body;
-  try {
-    const updated = await Message.findByIdAndUpdate(
-      req.params.id,
-      { name, email, subject, message },
-      { new: true }
-    );
-    res.json(updated);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to update message' });
   }
 });
 

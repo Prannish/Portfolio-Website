@@ -4,7 +4,7 @@ import { FaDownload } from 'react-icons/fa';
 import ProjectCard from '../components/ProjectCard';
 
 // ✅ USE CENTRAL API CONFIG
-import api, { projectsAPI } from '../api';
+import api, { projectsAPI } from '../utils/api';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);

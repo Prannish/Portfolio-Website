@@ -12,7 +12,22 @@ const PORT = process.env.PORT || 5000;
 
 // Trust proxy for rate limiting
 app.set('trust proxy', 1);
-app.use(helmet());
+app.use(helmet(
+     contentSecurityPolicy: false, // Disable default CSP
+));
+
+// Content Security Policy to allow images from backend and inline data
+app.use((req, res, next) => {
+ res.setHeader(
+  "Content-Security-Policy",
+  "default-src 'self'; " +
+  "img-src 'self' https://portfolio-website-2jvr.onrender.com data: blob:; " + // ✅ add blob: for images
+  "script-src 'self' https://www.pranishranjit.com.np 'unsafe-inline'; " +
+  "style-src 'self' https://www.pranishranjit.com.np 'unsafe-inline';"
+);
+
+  next();
+});
 
 app.use(cors({
   origin: [
@@ -50,6 +65,9 @@ app.use('/api/experiences', require('./routes/experiences'));
 app.use('/api/resume', require('./routes/resume'));
 app.use('/api/certifications', require('./routes/certification'));
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'alive' });
+});
 
 
 app.get('/', (req, res) => {

@@ -1,7 +1,8 @@
+// client/src/components/Experience.js
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import { FaBuilding, FaCalendarAlt, FaCode } from 'react-icons/fa';
+import { experiencesAPI } from '../utils/api'; // API helper
 
 const Experience = () => {
   const [experiences, setExperiences] = useState([]);
@@ -13,9 +14,11 @@ const Experience = () => {
 
   const fetchExperiences = async () => {
     try {
-      const response = await axios.get('/api/experiences');
-      setExperiences(response.data);
+      const response = await experiencesAPI.getAll();
+      console.log('Experiences response:', response.data);
+      setExperiences(response.data || []);
     } catch (error) {
+      console.error('Error fetching experiences:', error);
       setExperiences([]);
     } finally {
       setLoading(false);
@@ -27,7 +30,8 @@ const Experience = () => {
   return (
     <div className="experience-page">
       <div className="container">
-        <motion.div 
+        {/* Page Header */}
+        <motion.div
           className="page-header"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -37,10 +41,11 @@ const Experience = () => {
           <p>Professional journey and work experience</p>
         </motion.div>
 
+        {/* Experience Timeline */}
         <div className="experience-timeline">
-          {experiences.map((experience, index) => (
+          {experiences.map((exp, index) => (
             <motion.div
-              key={experience._id}
+              key={exp._id}
               className="experience-card"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -48,29 +53,41 @@ const Experience = () => {
             >
               <div className="experience-header">
                 <div className="experience-title">
-                  <h3>{experience.position}</h3>
+                  <h3>{exp.position}</h3>
                   <div className="company-info">
                     <FaBuilding className="icon" />
-                    <h4>{experience.company}</h4>
+                    <h4>{exp.company}</h4>
                   </div>
                 </div>
                 <div className="experience-duration">
                   <FaCalendarAlt className="icon" />
                   <span>
-                    {new Date(experience.startDate).toLocaleDateString('en-US', {year: 'numeric', month: 'short'})} - {new Date(experience.endDate).toLocaleDateString('en-US', {year: 'numeric', month: 'short'})}
+                    {exp.startDate
+                      ? new Date(exp.startDate).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                        })
+                      : 'N/A'}{' '}
+                    -{' '}
+                    {exp.endDate
+                      ? new Date(exp.endDate).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                        })
+                      : 'Present'}
                   </span>
                 </div>
               </div>
-              
+
+              {/* Description and Skills */}
               <div className="experience-content">
-                <p className="experience-description">{experience.description}</p>
-                
-                {experience.skills && (
+                <p className="experience-description">{exp.description}</p>
+                {exp.skills && exp.skills.length > 0 && (
                   <div className="experience-skills">
                     <FaCode className="skills-icon" />
                     <div className="skills-list">
-                      {experience.skills.split(',').map((skill, skillIndex) => (
-                        <span key={skillIndex} className="skill-tag">
+                      {exp.skills.split(',').map((skill, idx) => (
+                        <span key={idx} className="skill-tag">
                           {skill.trim()}
                         </span>
                       ))}
@@ -82,8 +99,9 @@ const Experience = () => {
           ))}
         </div>
 
+        {/* No Experience */}
         {experiences.length === 0 && (
-          <motion.div 
+          <motion.div
             className="no-experience"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

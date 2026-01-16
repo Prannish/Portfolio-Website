@@ -2,7 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
+// Backend base URL (Render)
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL ||
+  'https://portfolio-website-2jvr.onrender.com/api';
+
 const ProjectCard = ({ project, index }) => {
+  // Always use project.imageUrl now
+  const imageUrl = project.imageUrl;
+
   return (
     <motion.div
       className="glass-card"
@@ -13,13 +21,16 @@ const ProjectCard = ({ project, index }) => {
     >
       {/* Image */}
       <div className="project-image-wrapper">
-        {(project.hasImage || project.image) ? (
+        {imageUrl ? (
           <img
-            src={`/api/projects/${project._id}/image`}
+            src={imageUrl}
             alt={project.title}
+            loading="lazy"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://via.placeholder.com/400x250?text=Project+Image';
+            }}
           />
-        ) : project.imageUrl ? (
-          <img src={project.imageUrl} alt={project.title} />
         ) : (
           <div className="image-placeholder">
             Project Image
@@ -31,16 +42,12 @@ const ProjectCard = ({ project, index }) => {
       {/* Content */}
       <div className="project-content">
         <h3 className="project-title">{project.title}</h3>
-        <p className="project-description">
-          {project.description}
-        </p>
+        <p className="project-description">{project.description}</p>
 
         {/* Tech Stack */}
         <div className="project-tech">
           {project.technologies.map((tech, i) => (
-            <span key={i} className="tech-chip">
-              {tech}
-            </span>
+            <span key={i} className="tech-chip">{tech}</span>
           ))}
         </div>
 

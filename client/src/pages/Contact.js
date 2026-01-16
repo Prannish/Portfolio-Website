@@ -4,7 +4,7 @@ import {
   FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane,
   FaLinkedin, FaTwitter, FaGithub
 } from 'react-icons/fa';
-import axios from 'axios';
+import { contactAPI } from '../utils/api'; // ✅ centralized API helper
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,32 +17,37 @@ const Contact = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  // Handle input changes
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      await axios.post('/api/contact', formData);
+      await contactAPI.send(formData); // ✅ send form via centralized API
       setSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
-      setError('Failed to send message. Please try again.');
+    } catch (err) {
+      console.error(err);
+      setError(err?.response?.data?.error || 'Failed to send message. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Animation variants
+  const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
+  const itemVariants = { hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } };
+
   return (
     <div className="contact-page">
       <div className="container">
+        {/* Page Header */}
         <motion.div 
           className="page-header"
           initial={{ opacity: 0, y: 20 }}
@@ -54,6 +59,7 @@ const Contact = () => {
         </motion.div>
 
         <div className="contact-content">
+          {/* Contact Info */}
           <motion.div 
             className="contact-info"
             initial={{ opacity: 0, x: -50 }}
@@ -123,6 +129,7 @@ const Contact = () => {
             </div>
           </motion.div>
 
+          {/* Contact Form */}
           <motion.div 
             className="contact-form-container"
             initial={{ opacity: 0, x: 50 }}
@@ -185,9 +192,9 @@ const Contact = () => {
                     required
                   ></textarea>
                 </div>
-                
+
                 {error && <div className="error-message">{error}</div>}
-                
+
                 <button 
                   type="submit" 
                   className="btn btn-primary"
@@ -200,16 +207,13 @@ const Contact = () => {
                   )}
                 </button>
               </form>
-              
             )}
-            
-  {/* Quote below the form */}
-  <br></br>
-  <br></br>
 
-  <div className="contact-quote">
-    <p>The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will.</p>
-  </div>
+            {/* Quote */}
+            <br /><br />
+            <div className="contact-quote">
+              <p>The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will.</p>
+            </div>
           </motion.div>
         </div>
       </div>

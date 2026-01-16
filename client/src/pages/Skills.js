@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import { FaCode, FaStar } from 'react-icons/fa';
+import { skillsAPI } from '../utils/api'; // <-- import from your api.js
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -11,9 +11,10 @@ const Skills = () => {
     fetchSkills();
   }, []);
 
+  // Fetch skills using your centralized API
   const fetchSkills = async () => {
     try {
-      const response = await axios.get('/api/skills');
+      const response = await skillsAPI.getAll();
       console.log('Skills response:', response.data);
       setSkills(response.data || []);
     } catch (error) {
@@ -29,7 +30,8 @@ const Skills = () => {
   return (
     <div className="skills-page">
       <div className="container">
-        <motion.div 
+        {/* Page Header */}
+        <motion.div
           className="page-header"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,47 +42,47 @@ const Skills = () => {
           <p>Technologies and tools I use to bring ideas to life</p>
         </motion.div>
 
-        <motion.div 
-          
+        {/* Skills Grid */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="skills-grid">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill}
-                className="skill-card"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  rotateY: 5,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                <div className="skill-content">
-                  <FaStar className="skill-icon" />
-                  <span className="skill-name">{skill}</span>
-                </div>
-                <div className="skill-glow"></div>
-              </motion.div>
-            ))}
-          </div>
+          {skills.length > 0 ? (
+            <div className="skills-grid">
+              {skills.map((skill, index) => (
+                <motion.div
+                  key={skill}
+                  className="skill-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  whileHover={{
+                    scale: 1.05,
+                    rotateY: 5,
+                    transition: { duration: 0.2 },
+                  }}
+                >
+                  <div className="skill-content">
+                    <FaStar className="skill-icon" />
+                    <span className="skill-name">{skill}</span>
+                  </div>
+                  <div className="skill-glow"></div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              className="no-skills"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <FaCode className="empty-icon" />
+              <p>No skills found. Add some projects to see skills here.</p>
+            </motion.div>
+          )}
         </motion.div>
-
-        {skills.length === 0 && (
-          <motion.div 
-            className="no-skills"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <FaCode className="empty-icon" />
-            <p>No skills found. Add some projects to see skills here.</p>
-          </motion.div>
-        )}
       </div>
     </div>
   );

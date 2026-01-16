@@ -1,5 +1,6 @@
+// client/src/components/Certifications.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { certificationsAPI } from '../utils/api'; // API helper
 
 const Certifications = () => {
   const [certs, setCerts] = useState([]);
@@ -8,10 +9,12 @@ const Certifications = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get('/api/certifications');
-        setCerts(res.data);
+        const res = await certificationsAPI.getAll();
+        console.log('Certifications response:', res.data);
+        setCerts(res.data || []);
       } catch (error) {
         console.error('Failed to fetch certifications:', error);
+        setCerts([]);
       } finally {
         setLoading(false);
       }
@@ -44,17 +47,19 @@ const Certifications = () => {
           {certs.map((cert) => (
             <div key={cert._id} className="cert-card">
               {/* Image Wrapper */}
-              <div className="cert-image-wrapper">
-                <img
-                  src={`/api/certifications/${cert._id}/image`}
-                  alt={cert.title}
-                  className="cert-image"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
+              {cert.image && cert.image.data && (
+                <div className="cert-image-wrapper">
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/certifications/${cert._id}/image`}
+                    alt={cert.title}
+                    className="cert-image"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
 
               {/* Title */}
               <h3>{cert.title}</h3>
@@ -74,11 +79,7 @@ const Certifications = () => {
 
               {/* External Link */}
               {cert.url && (
-                <a
-                  href={cert.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={cert.url} target="_blank" rel="noopener noreferrer">
                   View Certificate
                 </a>
               )}

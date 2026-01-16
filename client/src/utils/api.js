@@ -31,6 +31,12 @@ api.interceptors.response.use(
   }
 );
 
+export const resumeAPI = {
+  // Download resume as a blob
+  download: () => api.get('/resume/download', { responseType: 'blob' }),
+};
+
+
 export const projectsAPI = {
   getAll: () => api.get('/projects'),
   getFeatured: () => api.get('/projects/featured'),
@@ -40,6 +46,13 @@ export const projectsAPI = {
 export const skillsAPI = {
   getAll: () => api.get('/skills'),
   create: (data) => api.post('/skills', data),
+};
+
+export const experiencesAPI = {       // ✅ Add this
+  getAll: () => api.get('/experiences'),
+  create: (data) => api.post('/experiences', data),
+  update: (id, data) => api.put(`/experiences/${id}`, data),
+  delete: (id) => api.delete(`/experiences/${id}`)
 };
 
 export const contactAPI = {

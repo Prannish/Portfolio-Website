@@ -6,6 +6,7 @@ import { FaDownload } from 'react-icons/fa';
 // Import images from src/assets (or wherever you store them inside src)
 import bgDesktop from '../assets/images/pp.jpeg';
 import bgMobile from '../assets/images/mobdp.png';
+import { resumeAPI } from '../utils/api';
 
 const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -40,27 +41,22 @@ const Hero = () => {
     }
   };
 
-  const handleDownload = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/resume/download');
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'resume.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      } else {
-        alert('Resume not found. Please upload a resume first.');
-      }
-    } catch (error) {
-      console.error('Download failed:', error);
-      alert('Download failed. Please try again.');
-    }
-  };
+ const handleDownload = async () => {
+  try {
+    const response = await resumeAPI.download();
+    const url = window.URL.createObjectURL(response.data);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resume.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+    alert('Download failed. Please try again.');
+  }
+};
 
   return (
     <section

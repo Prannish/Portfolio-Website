@@ -21,15 +21,20 @@ const upload = multer({
 router.get('/', async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
-    // Add hasImage flag for each project
+
+    // Add hasImage flag and imageUrl pointing to API route
     const projectsWithImageFlag = projects.map(project => {
       const projectObj = project.toObject();
       return {
         ...projectObj,
         hasImage: !!(projectObj.image && projectObj.image.data),
-        image: undefined // Remove image data from response
+        imageUrl: (projectObj.image && projectObj.image.data)
+          ? `${process.env.API_BASE_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/projects/${projectObj._id}/image`
+          : projectObj.imageUrl || null,
+        image: undefined // remove raw image buffer
       };
     });
+
     res.json(projectsWithImageFlag);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -40,7 +45,20 @@ router.get('/', async (req, res) => {
 router.get('/featured', async (req, res) => {
   try {
     const projects = await Project.find({ featured: true }).sort({ createdAt: -1 });
-    res.json(projects);
+
+    const projectsWithImageFlag = projects.map(project => {
+      const projectObj = project.toObject();
+      return {
+        ...projectObj,
+        hasImage: !!(projectObj.image && projectObj.image.data),
+        imageUrl: (projectObj.image && projectObj.image.data)
+          ? `${process.env.API_BASE_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/projects/${projectObj._id}/image`
+          : projectObj.imageUrl || null,
+        image: undefined
+      };
+    });
+
+    res.json(projectsWithImageFlag);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -52,7 +70,9 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     const projectData = {
       title: req.body.title,
       description: req.body.description,
-      technologies: req.body.technologies ? req.body.technologies.split(',').map(tech => tech.trim()) : [],
+      technologies: req.body.technologies
+        ? req.body.technologies.split(',').map(tech => tech.trim())
+        : [],
       githubUrl: req.body.githubUrl,
       liveUrl: req.body.liveUrl,
       featured: req.body.featured === 'true'
@@ -68,10 +88,13 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     
     const project = new Project(projectData);
     const savedProject = await project.save();
-    
-    // Return project without image data to reduce response size
+
     const { image, ...projectResponse } = savedProject.toObject();
-    res.status(201).json({ ...projectResponse, hasImage: !!image });
+    res.status(201).json({ 
+      ...projectResponse, 
+      hasImage: !!image,
+      imageUrl: image ? `${process.env.API_BASE_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/projects/${savedProject._id}/image` : null
+    });
   } catch (error) {
     console.error('Project creation error:', error);
     res.status(400).json({ message: error.message });
@@ -92,6 +115,7 @@ router.get('/:id/image', async (req, res) => {
       'Content-Length': project.image.data.length,
       'Cache-Control': 'public, max-age=86400'
     });
+
     res.end(project.image.data, 'binary');
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -117,7 +141,9 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
     const updateData = {
       title: req.body.title,
       description: req.body.description,
-      technologies: req.body.technologies ? req.body.technologies.split(',').map(tech => tech.trim()) : [],
+      technologies: req.body.technologies
+        ? req.body.technologies.split(',').map(tech => tech.trim())
+        : [],
       githubUrl: req.body.githubUrl,
       liveUrl: req.body.liveUrl,
       featured: req.body.featured === 'true'
@@ -137,7 +163,11 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
     }
     
     const { image, ...projectResponse } = project.toObject();
-    res.json({ ...projectResponse, hasImage: !!image });
+    res.json({ 
+      ...projectResponse, 
+      hasImage: !!image,
+      imageUrl: image ? `${process.env.API_BASE_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/projects/${project._id}/image` : null
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
