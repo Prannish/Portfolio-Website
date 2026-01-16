@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api'; 
 
 const Login = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -12,7 +12,7 @@ const Login = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await axios.post('/api/auth/login', credentials);
+      const response = await api.post('/auth/login', credentials);
       localStorage.setItem('adminToken', response.data.token);
       onLogin(response.data.token);
     } catch (error) {
