@@ -49,15 +49,14 @@ const Certifications = () => {
               {/* Image Wrapper */}
               {cert.image && cert.image.data && (
                 <div className="cert-image-wrapper">
-                  <img
-                    src={`${process.env.REACT_APP_API_URL}/certifications/${cert._id}/image`}
-                    alt={cert.title}
-                    className="cert-image"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
+                 <img
+  src={`${process.env.REACT_APP_API_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/certifications/${cert._id}/image`}
+  alt={cert.title}
+  className="cert-image"
+  loading="lazy"
+  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+/>
+
                 </div>
               )}
 
