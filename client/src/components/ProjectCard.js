@@ -8,7 +8,7 @@ const API_BASE_URL =
   'https://portfolio-website-2jvr.onrender.com/api';
 
 const ProjectCard = ({ project, index }) => {
-  // Always use project.imageUrl now
+  // Use project.imageUrl provided by backend
   const imageUrl = project.imageUrl;
 
   return (
@@ -23,12 +23,14 @@ const ProjectCard = ({ project, index }) => {
       <div className="project-image-wrapper">
         {imageUrl ? (
           <img
-            src={imageUrl}
+            src={imageUrl} // use imageUrl from backend
             alt={project.title}
+            className="project-image"
             loading="lazy"
+            crossOrigin="anonymous" // required for CORS
             onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/400x250?text=Project+Image';
+              e.currentTarget.src =
+                'https://via.placeholder.com/400x250?text=Project+Image'; // fallback
             }}
           />
         ) : (
@@ -46,9 +48,12 @@ const ProjectCard = ({ project, index }) => {
 
         {/* Tech Stack */}
         <div className="project-tech">
-          {project.technologies.map((tech, i) => (
-            <span key={i} className="tech-chip">{tech}</span>
-          ))}
+          {project.technologies &&
+            project.technologies.map((tech, i) => (
+              <span key={i} className="tech-chip">
+                {tech}
+              </span>
+            ))}
         </div>
 
         {/* Links */}
