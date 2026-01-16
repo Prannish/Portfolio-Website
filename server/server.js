@@ -39,11 +39,13 @@ app.use(cors({
     "https://pranishranjit.com.np"
   ],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors());
+app.options('*', (req, res) => {
+  res.sendStatus(200);
+});
 app.use(express.json());
 
 const limiter = rateLimit({
