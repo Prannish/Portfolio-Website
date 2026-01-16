@@ -3,6 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../utils/api'; // 
 import Login from '../components/Login';
 
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL ||
+  'https://portfolio-website-2jvr.onrender.com/api';
+
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
@@ -297,7 +301,14 @@ const Admin = () => {
             {projects.map(proj => (
               <div key={proj._id} style={{marginBottom:'15px', padding:'10px', background:'#1f1f38', borderRadius:'5px'}}>
                 <h3>Title: {proj.title}</h3>
-                {proj.hasImage && <img src={`/api/projects/${proj._id}/image`} alt={proj.title} />}
+
+                {proj.hasImage && (
+  <img
+    src={`${API_BASE_URL}/projects/${proj._id}/image`}
+    alt={proj.title}
+    style={{ maxWidth: '150px', marginTop: '5px' }}
+  />
+)}
                 <p>Description: {proj.description}</p>
                 <p>Skills: {proj.technologies.join(', ')}</p>
                 <p>Github: <a href={proj.githubUrl} target="_blank" rel="noopener noreferrer">{proj.githubUrl}</a></p>
@@ -354,7 +365,17 @@ const Admin = () => {
             {certs.map(cert => (
               <div key={cert._id} style={{marginBottom:'15px', padding:'10px', background:'#1f1f38', borderRadius:'5px'}}>
                 <h3>Title: {cert.title}</h3>
-                {cert.image && <img src={`/api/certifications/${cert._id}/image`} alt={cert.title} style={{ maxWidth: '150px', marginTop:'5px' }} />}
+             {cert.hasImage && (
+  <img
+    src={`${API_BASE_URL}/certifications/${cert._id}/image`}
+    alt={cert.title}
+    style={{ maxWidth: '150px', marginTop: '5px' }}
+    onError={(e) => {
+      e.currentTarget.style.display = 'none';
+    }}
+  />
+)}
+
                 <p>Issuer: {cert.issuer}</p>
                 <p>Issue Date: {cert.issueDate}</p>
                 <p>URL: <a href={cert.url} target="_blank" rel="noopener noreferrer">{cert.url}</a></p>

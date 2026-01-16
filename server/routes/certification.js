@@ -12,11 +12,22 @@ const upload = multer({ storage });
 router.get('/', async (req, res) => {
   try {
     const certs = await Certification.find().sort({ issueDate: -1 });
-    res.json(certs);
+
+    const formatted = certs.map(cert => {
+      const obj = cert.toObject();
+      return {
+        ...obj,
+        hasImage: !!(obj.image && obj.image.data),
+        image: undefined // remove raw buffer from response
+      };
+    });
+
+    res.json(formatted);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch certifications' });
   }
 });
+
 
 // POST new certification (admin only)
 router.post('/', auth, upload.single('image'), async (req, res) => {
