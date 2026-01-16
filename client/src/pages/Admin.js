@@ -285,8 +285,8 @@ const Admin = () => {
         {proj.hasImage && <img src={`/api/projects/${proj._id}/image`} alt={proj.title} />}
         <p>Description: {proj.description}</p>
         <p>Skills: {proj.technologies.join(', ')}</p>
-        <p>Github: <a href={proj.githubUrl} target="_blank">{proj.githubUrl}</a></p>
-        <p>Live: <a href={proj.liveUrl} target="_blank">{proj.liveUrl}</a></p>
+        <p>Github: <a href={proj.githubUrl} target="_blank"  rel="noopener noreferrer">{proj.githubUrl}</a></p>
+        <p>Live: <a href={proj.liveUrl} target="_blank"  rel="noopener noreferrer">{proj.liveUrl}</a></p>
         <p>Featured: {proj.featured ? 'Yes' : 'No'}</p>
         <button className="btn-edit" onClick={()=>handleEditProject(proj)}>Edit</button>
         <button className="btn-danger" onClick={()=>handleDeleteProject(proj._id)}>Delete</button>
@@ -354,7 +354,7 @@ const Admin = () => {
 
         <p>Issuer: {cert.issuer}</p>
         <p>Issue Date: {cert.issueDate}</p>
-        <p>URL: <a href={cert.url} target="_blank">{cert.url}</a></p>
+        <p>URL: <a href={cert.url} target="_blank"  rel="noopener noreferrer">{cert.url}</a></p>
         <button className="btn-danger" onClick={()=>handleDeleteCert(cert._id)}>Delete</button>
       </div>
     ))}
@@ -365,7 +365,7 @@ const Admin = () => {
        {activeTab==='messages' && (
   <div className="section">
     <h2>Messages</h2>
-   
+    {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
     {messages.map(msg => (
       <div key={msg._id} style={{marginBottom:'15px', padding:'10px', background:'#1f1f38', borderRadius:'5px'}}>
         <p>Name: {msg.name}</p>

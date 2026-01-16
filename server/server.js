@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 // Trust proxy for rate limiting
 app.set('trust proxy', 1);
 app.use(helmet(
-     contentSecurityPolicy: false, // Disable default CSP
+     contentSecurityPolicy, false, // Disable default CSP
 ));
 
 // Content Security Policy to allow images from backend and inline data
