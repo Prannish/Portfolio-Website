@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 // Trust proxy for rate limiting (needed on platforms like Render)
 app.set('trust proxy', 1);
 
-// Helmet with full Content Security Policy for images, scripts, and styles
+// Helmet with full Content Security Policy and relaxed cross-origin resource policy for images
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -38,7 +38,9 @@ app.use(
           "'unsafe-inline'"
         ]
       }
-    }
+    },
+    // Allow images and other resources to be embedded from this API on a different origin
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
   })
 );
 
