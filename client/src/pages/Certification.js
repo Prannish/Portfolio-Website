@@ -1,6 +1,6 @@
 // client/src/components/Certifications.js
 import React, { useEffect, useState } from 'react';
-import { certificationsAPI } from '../utils/api'; // API helper
+import { certificationsAPI } from '../utils/api';
 
 const Certifications = () => {
   const [certs, setCerts] = useState([]);
@@ -32,7 +32,7 @@ const Certifications = () => {
         </p>
       </div>
     );
-  } 
+  }
 
   return (
     <div className="certifications-page">
@@ -46,30 +46,27 @@ const Certifications = () => {
         <div className="certs-grid">
           {certs.map((cert) => (
             <div key={cert._id} className="cert-card">
-              {/* Image Wrapper */}
-              {cert.image && cert.image.data && (
-                <div className="cert-image-wrapper">
-                <img
-      src={`${process.env.REACT_APP_API_URL || 'https://portfolio-website-2jvr.onrender.com/api'}/certifications/${cert._id}/image`}
-      alt={cert.title}
-      className="cert-image"
-      loading="lazy"
-      crossOrigin="anonymous"
-      onError={(e) => {
-        e.currentTarget.style.display = 'none';
-      }}
-    />
 
+              {/* ✅ IMAGE */}
+              {cert.hasImage && (
+                <div className="cert-image-wrapper">
+                  <img
+                    src={cert.imageUrl}
+                    alt={cert.title}
+                    className="cert-image"
+                    loading="lazy"
+                    crossOrigin="anonymous"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
                 </div>
               )}
 
-              {/* Title */}
               <h3>{cert.title}</h3>
 
-              {/* Issuer */}
               {cert.issuer && <p>{cert.issuer}</p>}
 
-              {/* Issue Date */}
               {cert.issueDate && (
                 <p>
                   {new Date(cert.issueDate).toLocaleDateString(undefined, {
@@ -79,7 +76,6 @@ const Certifications = () => {
                 </p>
               )}
 
-              {/* External Link */}
               {cert.url && (
                 <a href={cert.url} target="_blank" rel="noopener noreferrer">
                   View Certificate

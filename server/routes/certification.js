@@ -1,92 +1,113 @@
-// client/src/components/Certifications.js
-import React, { useEffect, useState } from 'react';
-import { certificationsAPI } from '../utils/api';
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const auth = require('../middleware/auth');
+const Certification = require('../models/Certification');
 
-const Certifications = () => {
-  const [certs, setCerts] = useState([]);
-  const [loading, setLoading] = useState(true);
+/* ==========================
+   API BASE URL
+========================== */
+const BASE_API_URL =
+  process.env.API_BASE_URL
+    ? `${process.env.API_BASE_URL}/api`
+    : 'https://portfolio-website-2jvr.onrender.com/api';
 
-  useEffect(() => {
-    const fetchCertifications = async () => {
-      try {
-        const res = await certificationsAPI.getAll();
-        console.log('Certifications response:', res.data);
-        setCerts(res.data || []);
-      } catch (error) {
-        console.error('Failed to fetch certifications:', error);
-        setCerts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+/* ==========================
+   Multer config
+========================== */
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-    fetchCertifications();
-  }, []);
+/* ==========================
+   GET all certifications (public)
+========================== */
+router.get('/', async (req, res) => {
+  try {
+    const certs = await Certification.find().sort({ issueDate: -1 });
 
-  if (loading) {
-    return (
-      <div className="certifications-page">
-        <h1>My Certifications</h1>
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>
-          Loading certifications…
-        </p>
-      </div>
-    );
+    const formatted = certs.map(cert => {
+      const obj = cert.toObject();
+      return {
+        ...obj,
+        hasImage: !!(obj.image && obj.image.data),
+        imageUrl: obj.image
+          ? `${BASE_API_URL}/certifications/${obj._id}/image`
+          : null,
+        image: undefined // remove raw buffer
+      };
+    });
+
+    res.json(formatted);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch certifications' });
   }
+});
 
-  return (
-    <div className="certifications-page">
-      <h1>My Certifications</h1>
+/* ==========================
+   POST new certification (admin)
+========================== */
+router.post('/', auth, upload.single('image'), async (req, res) => {
+  try {
+    const { title, issuer, issueDate, url } = req.body;
+    const newCert = new Certification({ title, issuer, issueDate, url });
 
-      {certs.length === 0 ? (
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)' }}>
-          No certifications available.
-        </p>
-      ) : (
-        <div className="certs-grid">
-          {certs.map((cert) => (
-            <div key={cert._id} className="cert-card">
+    if (req.file) {
+      newCert.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
+    }
 
-              {/* ✅ IMAGE */}
-              {cert.hasImage && (
-                <div className="cert-image-wrapper">
-                  <img
-                    src={cert.imageUrl}
-                    alt={cert.title}
-                    className="cert-image"
-                    loading="lazy"
-                    crossOrigin="anonymous"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                </div>
-              )}
+    const saved = await newCert.save();
+    const obj = saved.toObject();
 
-              <h3>{cert.title}</h3>
+    res.status(201).json({
+      ...obj,
+      hasImage: !!obj.image,
+      imageUrl: obj.image
+        ? `${BASE_API_URL}/certifications/${obj._id}/image`
+        : null,
+      image: undefined
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to add certification' });
+  }
+});
 
-              {cert.issuer && <p>{cert.issuer}</p>}
+/* ==========================
+   GET certification image (public)
+========================== */
+router.get('/:id/image', async (req, res) => {
+  try {
+    const cert = await Certification.findById(req.params.id);
+    if (!cert || !cert.image || !cert.image.data) {
+      return res.status(404).send('No image found');
+    }
 
-              {cert.issueDate && (
-                <p>
-                  {new Date(cert.issueDate).toLocaleDateString(undefined, {
-                    year: 'numeric',
-                    month: 'short',
-                  })}
-                </p>
-              )}
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Content-Type', cert.image.contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
 
-              {cert.url && (
-                <a href={cert.url} target="_blank" rel="noopener noreferrer">
-                  View Certificate
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+    res.end(cert.image.data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to fetch image');
+  }
+});
 
-export default Certifications;
+/* ==========================
+   DELETE certification (admin)
+========================== */
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    await Certification.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Certification deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete certification' });
+  }
+});
+
+module.exports = router;
