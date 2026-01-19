@@ -1,9 +1,16 @@
 import axios from 'axios';
 
-// client/src/api.js
-const API_BASE_URL = 'https://portfolio-website-2jvr.onrender.com/api';
+function normalizeApiBaseUrl(raw) {
+  if (!raw) return null;
+  const trimmed = String(raw).trim().replace(/\/+$/, '');
+  // Allow user to set either "https://host" or "https://host/api"
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+}
 
-
+// Single source of truth for API base URL across the client (Admin image URLs rely on this).
+export const API_BASE_URL =
+  normalizeApiBaseUrl(process.env.REACT_APP_API_BASE_URL) ||
+  'https://portfolio-website-2jvr.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -32,7 +39,6 @@ api.interceptors.response.use(
 );
 
 export const resumeAPI = {
-  // Download resume as a blob
   download: () => api.get('/resume/download', { responseType: 'blob' }),
 };
 
@@ -48,7 +54,7 @@ export const skillsAPI = {
   create: (data) => api.post('/skills', data),
 };
 
-export const experiencesAPI = {       // ✅ Add this
+export const experiencesAPI = {       
   getAll: () => api.get('/experiences'),
   create: (data) => api.post('/experiences', data),
   update: (id, data) => api.put(`/experiences/${id}`, data),

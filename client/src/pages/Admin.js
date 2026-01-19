@@ -1,11 +1,8 @@
 // client/src/pages/Admin.jsx
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../utils/api'; // 
+import { API_BASE_URL } from '../utils/api';
 import Login from '../components/Login';
-
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL ||
-  'https://portfolio-website-2jvr.onrender.com/api';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -304,7 +301,7 @@ const Admin = () => {
 
                 {proj.hasImage && (
   <img
-    src={`${API_BASE_URL}/projects/${proj._id}/image`}
+    src={proj.imageUrl || `${API_BASE_URL}/projects/${proj._id}/image`}
     alt={proj.title}
     style={{ maxWidth: '150px', marginTop: '5px' }}
   />
@@ -367,7 +364,7 @@ const Admin = () => {
                 <h3>Title: {cert.title}</h3>
              {cert.hasImage && (
   <img
-    src={`${API_BASE_URL}/certifications/${cert._id}/image`}
+    src={cert.imageUrl || `${API_BASE_URL}/certifications/${cert._id}/image`}
     alt={cert.title}
     style={{ maxWidth: '150px', marginTop: '5px' }}
     onError={(e) => {
