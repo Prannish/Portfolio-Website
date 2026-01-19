@@ -323,6 +323,7 @@ const Admin = () => {
                 <button className="btn-danger" onClick={handleResumeDelete}>
                   Delete
                 </button>
+                <br/>
                 {currentResume.previewImage && (
                   <div style={{ marginTop: "10px" }}>
                     <img

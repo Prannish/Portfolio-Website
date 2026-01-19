@@ -19,7 +19,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1400px;   /* Controls readability without breaking layout */
+  max-width: 1400px;   
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -27,22 +27,22 @@ body {
 /* ===== Skills Page Full Width Styles ===== */
 
 .skills-page {
-  width: 100vw;             /* full viewport width */
-  padding: 3rem 2rem;       /* spacing around content */
-  background-color: #0f0f0f; /* optional background */
+  width: 100vw;            
+  padding: 3rem 2rem;       
+  background-color: #0f0f0f; 
 }
 
 .skills-page .container {
-  width: 100%;              /* full width */
-  max-width: none;          /* remove container max-width */
+  width: 100%;             
+  max-width: none;        
   margin: 0 auto;
   padding: 0;
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* responsive columns */
-  gap: 1.5rem;              /* space between cards */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+  gap: 1.5rem;           
   width: 100%;
 }
 
@@ -51,7 +51,7 @@ body {
   border-radius: 12px;
   padding: 1rem;
   text-align: center;
-  width: 100%;              /* let grid manage width */
+  width: 100%;             
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   position: relative;
 }
@@ -229,10 +229,10 @@ body {
 .hero {
   background-size: cover;
   background-position: center;
-  min-height: calc(100vh - 10px); /* subtract navbar height */
+  min-height: calc(100vh - 10px); 
   display: flex;
   align-items: center;
-  padding-top: 100px; /* push content below navbar */
+  padding-top: 100px;
 }
 .hero::before {
   content: '';
@@ -332,12 +332,8 @@ body {
   width: 360px;
   height: 360px;
   border-radius: 50%;
-
   object-fit: cover;
-
-  /* Move focus LEFT or RIGHT depending on where your face is */
-  object-position: -20% center; /* try 10%, 15%, 25% */
-
+  object-position: -20% center;
   opacity: 0.9;
   filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.2));
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -1213,9 +1209,7 @@ body {
 }
 
 
-/* ================================
-   PROJECTS PAGE – UI UPGRADE
-================================ */
+/*PROJECTS PAGE – UI UPGRADE*/
 
 .projects-page {
   padding-top: 140px;
@@ -1347,9 +1341,7 @@ body {
   border-color: rgba(74, 144, 226, 0.4);
 }
 
-/* =========================================================
-   IMAGE SECTION
-========================================================= */
+/* IMAGE SECTION */
 
 .project-image-wrapper {
   position: relative;
@@ -1384,9 +1376,7 @@ body {
 
 
 
-/* =========================================================
-   CONTENT SECTION
-========================================================= */
+/* CONTENT SECTION*/
 
 .project-content {
   padding: 1.8rem;
@@ -1408,9 +1398,7 @@ body {
   margin-bottom: 1.3rem;
 }
 
-/* =========================================================
-   TECH STACK
-========================================================= */
+/* TECH STACK*/
 
 .project-tech {
   display: flex;
@@ -1430,9 +1418,7 @@ body {
   white-space: nowrap;
 }
 
-/* =========================================================
-   LINKS / BUTTONS
-========================================================= */
+/* LINKS / BUTTONS*/
 
 .project-links {
   display: flex;
@@ -1464,7 +1450,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Primary button (Live Demo) */
+/* Primary button */
 .icon-btn.primary {
   background: linear-gradient(135deg, #4a90e2, #7b68ee);
   border: none;
@@ -1474,9 +1460,7 @@ body {
   box-shadow: 0 10px 30px rgba(123, 104, 238, 0.5);
 }
 
-/* =========================================================
-   SAFETY OVERRIDE — PREVENT DARK TEXT LEAKS
-========================================================= */
+/* SAFETY OVERRIDE — PREVENT DARK TEXT LEAKS*/
 
 .glass-card,
 .glass-card * {
@@ -1513,7 +1497,7 @@ body {
 .admin-header h1 {
   font-size: 2rem;
   font-weight: 700;
-  color: #1f2937; /* darker heading */
+  color: #1f2937; 
 }
 
 .admin-header .btn {
@@ -1709,9 +1693,7 @@ body {
 }
 
 
-/* ================================
-   CERTIFICATIONS PAGE
-================================ */
+/* CERTIFICATIONS PAGE*/
 
 .certifications-page {
   padding-top: 140px;
@@ -1734,11 +1716,11 @@ body {
 
 /* Grid */
 .certs-grid {
-  max-width: 900px;          /* narrower container = bigger cards */
+  max-width: 900px;          
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: 1fr; /* SINGLE COLUMN */
+  grid-template-columns: 1fr;
   gap: 3rem;
 }
 
@@ -1806,8 +1788,8 @@ body {
 /* Image wrapper */
 .cert-image-wrapper {
   width: 100%;
-  height: auto;          /* let height adapt */
-  max-height: 500px;     /* optional: limits if very tall images */
+  height: auto;         
+  max-height: 500px;     
   background: rgba(255, 255, 255, 0.06);
   border-radius: 14px;
   display: flex;
@@ -1820,7 +1802,7 @@ body {
 /* Image */
 .cert-image {
   width: 100%;
-  height: auto;          /* keeps aspect ratio */
+  height: auto;          
   object-fit: contain;
   display: block;
   border-radius: 10px;
@@ -1828,18 +1810,18 @@ body {
 
 
 .contact-item a {
-  color: inherit;           /* Make link same as surrounding text */
-  text-decoration: none;    /* Remove underline */
+  color: inherit;         
+  text-decoration: none;   
   transition: color 0.3s ease;
 }
 
 .contact-item a:hover {
-  color: #00d4ff;           /* Optional: change color on hover */
+  color: #00d4ff;          
 }
 .contact-quote {
   text-align: center;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.7); /* matches your contact text */
+  color: rgba(255, 255, 255, 0.7); 
   margin-top: 2rem;
   font-size: 1rem;
 }
@@ -1850,7 +1832,7 @@ body {
 .admin-page {
   padding: 20px;
   min-height: 100vh;
-  background: #1a1a2e; /* dark background */
+  background: #1a1a2e; 
   color: #eee;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -2164,9 +2146,9 @@ ul li {
 /* Featured checkbox alignment and color */
 .admin-section form label {
   display: flex;
-  align-items: center;      /* vertically center checkbox + text */
-  gap: 8px;                 /* space between checkbox and text */
-  color: #c8b3b3;           /* match form input text color */
+  align-items: center;     
+  gap: 8px;                 
+  color: #c8b3b3;          
   margin: 10px 0 12px 0;
   cursor: pointer;
   font-size: 0.95rem;
@@ -2182,14 +2164,9 @@ ul li {
   height: 16px;
 }
 
-/* =========================
-   MOBILE RESPONSIVE STYLES
-   Applies to screens ≤768px
-========================= */
+/* MOBILE RESPONSIVE STYLES Applies to screens ≤768px */
 @media (max-width: 768px) {
-  /* -------------------------
-     NAVBAR
-  ------------------------- */
+  /* NAVBAR*/
   .nav-toggle {
     display: block;
     cursor: pointer;
@@ -2222,9 +2199,7 @@ ul li {
     padding: 1rem 1.5rem;
   }
 
-  /* -------------------------
-     HERO SECTION
-  ------------------------- */
+  /* HERO SECTION*/
   .hero-container {
     margin-left: 1rem;
     max-width: 90%;
@@ -2257,9 +2232,7 @@ ul li {
     height: 200px;
   }
 
-  /* -------------------------
-     SKILLS PAGE
-  ------------------------- */
+  /*  SKILLS PAGE*/
   .skills-grid {
     grid-template-columns: 1fr !important;
     gap: 1rem;
@@ -2278,9 +2251,7 @@ ul li {
     font-size: 2rem;
   }
 
-  /* -------------------------
-     EXPERIENCE PAGE
-  ------------------------- */
+  /* EXPERIENCE PAGE*/
   .experience-timeline::before {
     left: 2rem !important;
   }
@@ -2306,9 +2277,7 @@ ul li {
     font-size: 2.4rem;
   }
 
-  /* -------------------------
-     PROJECTS PAGE
-  ------------------------- */
+  /* PROJECTS PAGE */
   .projects-header-glass {
     padding: 2rem 1.5rem;
   }
@@ -2346,9 +2315,7 @@ ul li {
     flex-wrap: wrap;
   }
 
-  /* -------------------------
-     RESUME / SKILLS ADMIN PAGE
-  ------------------------- */
+  /* RESUME / SKILLS ADMIN PAGE */
   .resume-container,
   .skills-container {
     grid-template-columns: 1fr !important;
@@ -2365,9 +2332,7 @@ ul li {
     font-size: 0.8rem;
   }
 
-  /* -------------------------
-     CONTACT PAGE
-  ------------------------- */
+  /* CONTACT PAGE*/
   .contact-content {
     grid-template-columns: 1fr !important;
     gap: 2rem;
@@ -2378,22 +2343,18 @@ ul li {
     align-items: flex-start;
   }
 
-  /* -------------------------
-     GENERAL ADJUSTMENTS
-  ------------------------- */
+  /* GENERAL ADJUSTMENTS */
   .container {
     padding: 0 1rem;
   }
 
-  /* -------------------------
-     ADMIN (mobile: long URLs / tighter spacing)
-  ------------------------- */
+  /* ADMIN (mobile: long URLs / tighter spacing) */
   .admin-section a {
     display: block;
     max-width: 100%;
-    word-break: break-all;       /* force long URLs to wrap */
-    overflow-wrap: anywhere;     /* modern wrapping */
-    white-space: normal;         /* allow multi-line */
+    word-break: break-all;       
+    overflow-wrap: anywhere;     
+    white-space: normal;        
     line-height: 1.4;
   }
 
@@ -2406,9 +2367,7 @@ ul li {
     line-height: 1.5;
   }
 
-  /* -------------------------
-     GLOBAL / HOME (mobile scroll + layout)
-  ------------------------- */
+  /* GLOBAL / HOME (mobile scroll + layout) */
   html,
   body {
     width: 100%;
@@ -2516,17 +2475,15 @@ ul li {
 
   .profile-photo {
     width: 220px;
-    height: auto;          /* STOP CROPPING */
+    height: auto;          
     max-height: 300px;
-    object-fit: contain;   /* SHOW FULL IMAGE */
-    border-radius: 16px;   /* better than circle on mobile */
+    object-fit: contain;  
+    border-radius: 16px;   
     transform: none !important;
     opacity: 1;
   }
 
-  /* -------------------------
-     EXPERIENCE PAGE (mobile timeline polish)
-  ------------------------- */
+  /* EXPERIENCE PAGE (mobile timeline polish) */
   .experience-timeline {
     max-width: 100%;
     padding-left: 1rem;
