@@ -6,8 +6,8 @@ const CertificationSchema = new mongoose.Schema({
   issueDate: { type: Date, required: true },
   url: { type: String },
   image: {
-    data: Buffer,      // image binary
-    contentType: String // image mime type
+    data: Buffer,      
+    contentType: String 
   },
   createdAt: { type: Date, default: Date.now }
 });

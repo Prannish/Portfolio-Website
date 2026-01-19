@@ -754,50 +754,6 @@ body {
   animation: skillPulse 2s infinite;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-  }
-  
-  .skill-card {
-    padding: 1.5rem 1rem;
-  }
-  
-  .skills-page h1 {
-    font-size: 2.5rem;
-  }
-  
-  .skills-page .header-icon {
-    font-size: 2.5rem;
-  }
-
-  .experience-timeline::before {
-    left: 2rem;
-  }
-  
-  .experience-card {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 4rem !important;
-    padding-right: 1rem !important;
-  }
-  
-  .experience-card::before {
-    left: 1.25rem !important;
-  }
-  
-  .experience-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .experience-page h1 {
-    font-size: 2.5rem;
-  }
-}
-
 /* Experience Page */
 .experience-page {
   padding-top: 120px;
@@ -1000,33 +956,6 @@ body {
   font-size: 1.1rem;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .experience-timeline::before {
-    left: 2rem;
-  }
-  
-  .experience-card {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 4rem !important;
-    padding-right: 1rem !important;
-  }
-  
-  .experience-card::before {
-    left: 1.25rem !important;
-  }
-  
-  .experience-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .experience-page h1 {
-    font-size: 2.5rem;
-  }
-}
-
 .experience-item-admin {
   background: white;
   padding: 1.5rem;
@@ -1172,45 +1101,6 @@ body {
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
-}
-
-/* Footer */
-.footer {
-  background: rgba(10, 14, 39, 0.95);
-  color: white;
-  padding: 1.5rem 0;
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-}
-
-.footer-section h3 {
-  margin-bottom: 1rem;
-}
-
-.footer .social-links a {
-  background: #555;
-  color: white;
-}
-
-.footer .social-links a:hover {
-  background: #667eea;
-}
-
-.heart {
-  color: #e74c3c;
-  animation: heartbeat 1.5s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
 }
 
 /* Login Page */
@@ -1438,23 +1328,6 @@ body {
   font-size: 1.1rem;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .projects-header-glass {
-    padding: 2rem 1.5rem;
-  }
-
-  .projects-header-glass h1 {
-    font-size: 2.4rem;
-  }
-
-  .resume-download-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-
 /* Card Container */
 .glass-card {
   position: relative;
@@ -1619,25 +1492,6 @@ body {
 .glass-card a {
   color: inherit;
 }
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 768px) {
-  .project-image-wrapper {
-    height: 200px;
-  }
-
-  .project-content {
-    padding: 1.4rem;
-  }
-
-  .project-title {
-    font-size: 1.25rem;
-  }
-}
-
 
 /* =================== ADMIN PAGE =================== */
 .admin-page {
@@ -1949,12 +1803,6 @@ body {
   box-shadow: 0 10px 30px rgba(123,104,238,0.5);
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .certifications-page h1 {
-    font-size: 2.4rem;
-  }
-}
 /* Image wrapper */
 .cert-image-wrapper {
   width: 100%;
@@ -2200,18 +2048,6 @@ ul li {
   color: #2980b9;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .admin-nav {
-    flex-direction: column;
-  }
-  .nav-btn {
-    width: 100%;
-  }
-  .admin-section img {
-    max-width: 100%;
-  }
-}
 /* Admin section form container */
 .admin-section form {
   background-color: #2c2c44; /* darker form box */
@@ -2346,67 +2182,6 @@ ul li {
   height: 16px;
 }
 
-/* =========================
-   MOBILE STYLES (max-width: 768px)
-========================= */
-@media (max-width: 768px) {
-
-  /* NAVBAR */
-  .nav-menu { display: none; }
-  .nav-toggle { display: block; }
-
-  /* HERO SECTION */
-  .hero-container {
-    margin-left: 1rem;
-    padding: 1rem;
-    max-width: 100%;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  .hero-content h1 { font-size: 2.4rem; }
-  .hero-content h2 { font-size: 1.1rem; }
-  .hero-content p { font-size: 1rem; }
-  .profile-photo { width: 200px; height: 200px; }
-
-  /* SKILLS PAGE */
-  .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-  }
-  .skills-page h1 { font-size: 2.5rem; }
-  .skills-page .header-icon { font-size: 2.5rem; }
-
-  /* EXPERIENCE PAGE */
-  .experience-card {
-    width: 100% !important;
-    left: 0 !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-  .experience-card::before { left: 1.25rem !important; }
-  .experience-header { flex-direction: column; align-items: flex-start; }
-  .experience-page h1 { font-size: 2.5rem; }
-
-  /* CERTIFICATIONS PAGE */
-  .certifications-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-  }
-  .certifications-page h1 { font-size: 2.4rem; }
-
-  /* PROJECTS PAGE */
-  .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-  .project-image-wrapper { height: 200px; }
-  .project-title { font-size: 1.25rem; }
-  .project-content { padding: 1.4rem; }
-
-  /* ADMIN PAGE */
-  .admin-section form { flex-direction: column; gap: 1rem; }
-  .date-inputs { grid-template-columns: 1fr; }
-}
 /* =========================
    MOBILE RESPONSIVE STYLES
    Applies to screens ≤768px
@@ -2604,27 +2379,15 @@ ul li {
   }
 
   /* -------------------------
-     FOOTER
-  ------------------------- */
-  .footer-content {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  /* -------------------------
      GENERAL ADJUSTMENTS
   ------------------------- */
   .container {
     padding: 0 1rem;
   }
-}
-/* ===============================
-   MOBILE FIX: CERTIFICATION URL
-=============================== */
-@media (max-width: 768px) {
 
-  /* Certification card container */
+  /* -------------------------
+     ADMIN (mobile: long URLs / tighter spacing)
+  ------------------------- */
   .admin-section a {
     display: block;
     max-width: 100%;
@@ -2634,33 +2397,28 @@ ul li {
     line-height: 1.4;
   }
 
-  /* Certification cards spacing */
   .admin-section > div {
     padding: 14px;
   }
 
-  /* Paragraph text inside admin cards */
   .admin-section p {
     font-size: 0.95rem;
     line-height: 1.5;
   }
-}
-/* ===============================
-   GLOBAL MOBILE SCROLL FIX
-=============================== */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-/* ===============================
-   HOME PAGE – MOBILE FIXES
-=============================== */
-@media (max-width: 768px) {
 
-  /* Main page wrapper */
+  /* -------------------------
+     GLOBAL / HOME (mobile scroll + layout)
+  ------------------------- */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .home-page,
   .container,
   .main-content {
@@ -2670,14 +2428,12 @@ html, body {
     box-sizing: border-box;
   }
 
-  /* Prevent fixed-height sections */
   section,
   .section {
     min-height: auto;
     height: auto;
   }
 
-  /* Headings */
   h1 {
     font-size: 1.8rem;
     line-height: 1.2;
@@ -2691,20 +2447,17 @@ html, body {
     font-size: 1.1rem;
   }
 
-  /* Paragraphs */
   p {
     font-size: 0.95rem;
     line-height: 1.6;
   }
 
-  /* Images */
   img {
     max-width: 100%;
     height: auto;
     display: block;
   }
 
-  /* Cards / boxes */
   .card,
   .project-card,
   .experience-card,
@@ -2713,34 +2466,13 @@ html, body {
     margin-bottom: 16px;
   }
 
-  /* Flex layouts stack vertically */
   .flex,
   .row,
   .grid {
     flex-direction: column !important;
   }
-}
-@media (max-width: 768px) {
-  body,
-  .home-page,
-  .app,
-  .wrapper {
-    height: auto !important;
-    position: static !important;
-    overflow: visible !important;
-  }
-}
-/* ===============================
-   HOME PAGE – MOBILE SCROLL FIX
-=============================== */
-@media (max-width: 768px) {
 
-  html,
-  body {
-    overflow-y: auto;
-    height: auto;
-  }
-
+  /* Home/hero height + spacing */
   .home {
     height: auto !important;
     overflow: visible !important;
@@ -2753,8 +2485,8 @@ html, body {
     padding-top: 120px;
     padding-bottom: 60px;
   }
-}
-@media (max-width: 768px) {
+
+  /* Hero fine-tuning */
   .hero-container {
     margin-left: 0;
     max-width: 100%;
@@ -2772,45 +2504,29 @@ html, body {
   .hero-buttons {
     flex-direction: column;
   }
-}
-.hero-image img,
-.profile-image img,
-.about-image img {
-  object-fit: cover;
-  object-position: top center;
-}
-@media (max-width: 768px) {
+
+  /* Prevent image cropping on mobile hero/profile */
   .hero-image img {
     height: auto !important;
     max-height: none !important;
     width: 100%;
     object-fit: contain;
-  }
-}
-@media (max-width: 768px) {
-  .hero-image img {
-    object-fit: contain;
     background: #1a1a2e;
   }
-}
-@media (max-width: 768px) {
+
   .profile-photo {
     width: 220px;
-    height: auto;          /* 🔴 STOP CROPPING */
+    height: auto;          /* STOP CROPPING */
     max-height: 300px;
-
-    object-fit: contain;  /* 🔴 SHOW FULL IMAGE */
-    border-radius: 16px;  /* better than circle on mobile */
-
+    object-fit: contain;   /* SHOW FULL IMAGE */
+    border-radius: 16px;   /* better than circle on mobile */
     transform: none !important;
     opacity: 1;
   }
-}
-/* ===============================
-   EXPERIENCE PAGE – MOBILE FIXES
-=============================== */
-@media (max-width: 768px) {
-  /* Timeline container */
+
+  /* -------------------------
+     EXPERIENCE PAGE (mobile timeline polish)
+  ------------------------- */
   .experience-timeline {
     max-width: 100%;
     padding-left: 1rem;
@@ -2818,25 +2534,22 @@ html, body {
     margin: 0 auto;
   }
 
-  /* Timeline vertical line */
   .experience-timeline::before {
     left: 1.5rem !important;
   }
 
-  /* Cards: full width & reset offsets */
   .experience-card {
     width: 100% !important;
     left: 0 !important;
     padding-left: 3rem !important;
     padding-right: 1rem !important;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
 
-  /* Timeline dots */
   .experience-card::before {
     left: 0.5rem !important;
     right: auto !important;
@@ -2846,36 +2559,30 @@ html, body {
     border-width: 3px;
   }
 
-  /* Card headers stack vertically */
   .experience-header {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 0.5rem;
   }
 
-  /* Card titles */
   .experience-title h3 {
     font-size: 1.2rem !important;
   }
 
-  /* Company info */
   .company-info h4 {
     font-size: 1rem !important;
   }
 
-  /* Duration badges */
   .experience-duration {
     font-size: 0.85rem;
     padding: 0.4rem 0.8rem;
   }
 
-  /* Description text */
   .experience-description {
     font-size: 0.95rem;
     line-height: 1.5;
   }
 
-  /* Skills section */
   .experience-skills {
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -2886,12 +2593,6 @@ html, body {
     padding: 0.25rem 0.6rem;
   }
 
-  /* Reduce timeline spacing */
-  .experience-card {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Timeline odd/even spacing reset */
   .experience-card:nth-child(odd),
   .experience-card:nth-child(even) {
     left: 0 !important;
@@ -2899,13 +2600,23 @@ html, body {
     padding-right: 1rem !important;
   }
 
-  /* Admin & editing cards */
   .experience-item-admin {
     flex-direction: column;
     gap: 0.5rem;
   }
 
+  .admin-section form {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .date-inputs {
     grid-template-columns: 1fr !important;
   }
+}
+.hero-image img,
+.profile-image img,
+.about-image img {
+  object-fit: cover;
+  object-position: top center;
 }

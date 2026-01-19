@@ -1,8 +1,7 @@
-// client/src/components/Experience.js
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaBuilding, FaCalendarAlt, FaCode } from 'react-icons/fa';
-import { experiencesAPI } from '../utils/api'; // API helper
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaBuilding, FaCalendarAlt, FaCode } from "react-icons/fa";
+import { experiencesAPI } from "../utils/api";
 
 const Experience = () => {
   const [experiences, setExperiences] = useState([]);
@@ -15,10 +14,8 @@ const Experience = () => {
   const fetchExperiences = async () => {
     try {
       const response = await experiencesAPI.getAll();
-      console.log('Experiences response:', response.data);
       setExperiences(response.data || []);
     } catch (error) {
-      console.error('Error fetching experiences:', error);
       setExperiences([]);
     } finally {
       setLoading(false);
@@ -63,18 +60,18 @@ const Experience = () => {
                   <FaCalendarAlt className="icon" />
                   <span>
                     {exp.startDate
-                      ? new Date(exp.startDate).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
+                      ? new Date(exp.startDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
                         })
-                      : 'N/A'}{' '}
-                    -{' '}
+                      : "N/A"}{" "}
+                    -{" "}
                     {exp.endDate
-                      ? new Date(exp.endDate).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
+                      ? new Date(exp.endDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
                         })
-                      : 'Present'}
+                      : "Present"}
                   </span>
                 </div>
               </div>
@@ -86,7 +83,7 @@ const Experience = () => {
                   <div className="experience-skills">
                     <FaCode className="skills-icon" />
                     <div className="skills-list">
-                      {exp.skills.split(',').map((skill, idx) => (
+                      {exp.skills.split(",").map((skill, idx) => (
                         <span key={idx} className="skill-tag">
                           {skill.trim()}
                         </span>

@@ -1,14 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-
-// Backend base URL (Render)
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL ||
-  'https://portfolio-website-2jvr.onrender.com/api';
+import React from "react";
+import { motion } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const ProjectCard = ({ project, index }) => {
-  // Use project.imageUrl provided by backend
   const imageUrl = project.imageUrl;
 
   return (
@@ -19,24 +13,21 @@ const ProjectCard = ({ project, index }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -8 }}
     >
-      {/* Image */}
       <div className="project-image-wrapper">
         {imageUrl ? (
           <img
-            src={imageUrl} // use imageUrl from backend
+            src={imageUrl}
             alt={project.title}
             className="project-image"
             loading="lazy"
-            crossOrigin="anonymous" // required for CORS
+            crossOrigin="anonymous"
             onError={(e) => {
               e.currentTarget.src =
-                'https://via.placeholder.com/400x250?text=Project+Image'; // fallback
+                "https://via.placeholder.com/400x250?text=Project+Image";
             }}
           />
         ) : (
-          <div className="image-placeholder">
-            Project Image
-          </div>
+          <div className="image-placeholder">Project Image</div>
         )}
         <div className="image-overlay" />
       </div>

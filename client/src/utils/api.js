@@ -1,16 +1,15 @@
-import axios from 'axios';
+import axios from "axios";
 
 function normalizeApiBaseUrl(raw) {
   if (!raw) return null;
-  const trimmed = String(raw).trim().replace(/\/+$/, '');
-  // Allow user to set either "https://host" or "https://host/api"
-  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+  const trimmed = String(raw).trim().replace(/\/+$/, "");
+
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
 }
 
-// Single source of truth for API base URL across the client (Admin image URLs rely on this).
 export const API_BASE_URL =
   normalizeApiBaseUrl(process.env.REACT_APP_API_BASE_URL) ||
-  'https://portfolio-website-2jvr.onrender.com/api';
+  "https://portfolio-website-2jvr.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -24,7 +23,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -33,41 +32,42 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error('API Error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 export const resumeAPI = {
-  download: () => api.get('/resume/download', { responseType: 'blob' }),
+  download: () => api.get("/resume/download", { responseType: "blob" }),
 };
 
-
 export const projectsAPI = {
-  getAll: () => api.get('/projects'),
-  getFeatured: () => api.get('/projects/featured'),
-  create: (data) => api.post('/projects', data),
+  getAll: () => api.get("/projects"),
+  getFeatured: () => api.get("/projects/featured"),
+  create: (data) => api.post("/projects", data),
 };
 
 export const skillsAPI = {
-  getAll: () => api.get('/skills'),
-  create: (data) => api.post('/skills', data),
+  getAll: () => api.get("/skills"),
+  create: (data) => api.post("/skills", data),
 };
 
-export const experiencesAPI = {       
-  getAll: () => api.get('/experiences'),
-  create: (data) => api.post('/experiences', data),
+export const experiencesAPI = {
+  getAll: () => api.get("/experiences"),
+  create: (data) => api.post("/experiences", data),
   update: (id, data) => api.put(`/experiences/${id}`, data),
-  delete: (id) => api.delete(`/experiences/${id}`)
+  delete: (id) => api.delete(`/experiences/${id}`),
 };
 
 export const contactAPI = {
-  send: (data) => api.post('/contact', data),
+  send: (data) => api.post("/contact", data),
 };
 
 export const certificationsAPI = {
-  getAll: () => api.get('/certifications'),
-  create: (data) => api.post('/certifications', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getAll: () => api.get("/certifications"),
+  create: (data) =>
+    api.post("/certifications", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
   delete: (id) => api.delete(`/certifications/${id}`),
 };
 

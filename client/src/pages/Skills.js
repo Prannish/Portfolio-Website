@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaCode, FaStar } from 'react-icons/fa';
-import { skillsAPI } from '../utils/api'; // <-- import from your api.js
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaCode, FaStar } from "react-icons/fa";
+import { skillsAPI } from "../utils/api";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -11,14 +11,11 @@ const Skills = () => {
     fetchSkills();
   }, []);
 
-  // Fetch skills using your centralized API
   const fetchSkills = async () => {
     try {
       const response = await skillsAPI.getAll();
-      console.log('Skills response:', response.data);
       setSkills(response.data || []);
     } catch (error) {
-      console.error('Error fetching skills:', error);
       setSkills([]);
     } finally {
       setLoading(false);

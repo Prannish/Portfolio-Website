@@ -1,63 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaDownload } from 'react-icons/fa';
-import ProjectCard from '../components/ProjectCard';
-
-// ✅ USE CENTRAL API CONFIG
-import api, { projectsAPI } from '../utils/api';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaDownload } from "react-icons/fa";
+import ProjectCard from "../components/ProjectCard";
+import api, { projectsAPI } from "../utils/api";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
-  // ✅ FIXED: use api.js (absolute backend URL)
   const fetchProjects = async () => {
     try {
       const response = await projectsAPI.getAll();
       setProjects(response.data);
     } catch (error) {
-      console.error('Error fetching projects:', error);
       setProjects([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ FIXED: resume download works in production
   const handleDownload = async () => {
     try {
-      const response = await api.get('/resume/download', {
-        responseType: 'blob',
+      const response = await api.get("/resume/download", {
+        responseType: "blob",
       });
 
       const url = window.URL.createObjectURL(response.data);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'resume.pdf';
+      a.download = "resume.pdf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Download failed:', error);
-      alert('Download failed. Please try again.');
+      alert("Download failed. Please try again.");
     }
   };
 
-  const filteredProjects = projects.filter(project => {
-    if (filter === 'all') return true;
-    if (filter === 'featured') return project.featured;
-    return project.technologies.some(tech =>
-      tech.toLowerCase().includes(filter.toLowerCase())
+  const filteredProjects = projects.filter((project) => {
+    if (filter === "all") return true;
+    if (filter === "featured") return project.featured;
+    return project.technologies.some((tech) =>
+      tech.toLowerCase().includes(filter.toLowerCase()),
     );
   });
 
-  const filters = ['all', 'featured'];
+  const filters = ["all", "featured"];
 
   if (loading) {
     return <div className="projects-loading">Loading projects...</div>;
@@ -66,7 +60,6 @@ const Projects = () => {
   return (
     <div className="projects-page">
       <div className="container">
-
         <motion.div
           className="projects-header-glass"
           initial={{ opacity: 0, y: 30 }}
@@ -75,10 +68,7 @@ const Projects = () => {
         >
           <h1>My Projects</h1>
 
-          <button
-            onClick={handleDownload}
-            className="resume-download-btn"
-          >
+          <button onClick={handleDownload} className="resume-download-btn">
             <FaDownload />
             <span>Download Resume</span>
           </button>
@@ -90,10 +80,10 @@ const Projects = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          {filters.map(option => (
+          {filters.map((option) => (
             <button
               key={option}
-              className={`filter-chip ${filter === option ? 'active' : ''}`}
+              className={`filter-chip ${filter === option ? "active" : ""}`}
               onClick={() => setFilter(option)}
             >
               {option.toUpperCase()}
@@ -116,7 +106,6 @@ const Projects = () => {
             No projects match this filter.
           </div>
         )}
-
       </div>
     </div>
   );

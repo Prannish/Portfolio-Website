@@ -1,54 +1,64 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane,
-  FaLinkedin, FaTwitter, FaGithub
-} from 'react-icons/fa';
-import { contactAPI } from '../utils/api'; // ✅ centralized API helper
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaLinkedin,
+  FaTwitter,
+  FaGithub,
+} from "react-icons/fa";
+import { contactAPI } from "../utils/api";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       await contactAPI.send(formData); // ✅ send form via centralized API
       setSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (err) {
-      console.error(err);
-      setError(err?.response?.data?.error || 'Failed to send message. Please try again.');
+      setError(
+        err?.response?.data?.error ||
+          "Failed to send message. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Animation variants
-  const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
-  const itemVariants = { hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  };
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
 
   return (
     <div className="contact-page">
       <div className="container">
         {/* Page Header */}
-        <motion.div 
+        <motion.div
           className="page-header"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,13 +70,13 @@ const Contact = () => {
 
         <div className="contact-content">
           {/* Contact Info */}
-          <motion.div 
+          <motion.div
             className="contact-info"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 style={{ color: '#00d4ff' }}>Contact Information</h2>
+            <h2 style={{ color: "#00d4ff" }}>Contact Information</h2>
 
             <div className="contact-item">
               <FaEnvelope />
@@ -97,7 +107,11 @@ const Contact = () => {
               <div>
                 <h3>LinkedIn</h3>
                 <p>
-                  <a href="https://www.linkedin.com/in/pranish-ranjit" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.linkedin.com/in/pranish-ranjit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     linkedin.com/in/pranish-ranjit
                   </a>
                 </p>
@@ -109,7 +123,11 @@ const Contact = () => {
               <div>
                 <h3>Twitter</h3>
                 <p>
-                  <a href="https://twitter.com/PranishRanjit" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://twitter.com/PranishRanjit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     @PranishRanjit
                   </a>
                 </p>
@@ -121,7 +139,11 @@ const Contact = () => {
               <div>
                 <h3>GitHub</h3>
                 <p>
-                  <a href="https://github.com/prannish" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://github.com/prannish"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     github.com/prannish
                   </a>
                 </p>
@@ -130,20 +152,20 @@ const Contact = () => {
           </motion.div>
 
           {/* Contact Form */}
-          <motion.div 
+          <motion.div
             className="contact-form-container"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <h2 style={{ color: '#00d4ff' }}>Send a Message</h2>
+            <h2 style={{ color: "#00d4ff" }}>Send a Message</h2>
             <br />
 
             {success ? (
               <div className="success-message">
                 <h3>Message Sent Successfully!</h3>
                 <p>Thank you for reaching out. I'll get back to you soon.</p>
-                <button 
+                <button
                   className="btn btn-primary"
                   onClick={() => setSuccess(false)}
                 >
@@ -195,12 +217,14 @@ const Contact = () => {
 
                 {error && <div className="error-message">{error}</div>}
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn btn-primary"
                   disabled={loading}
                 >
-                  {loading ? 'Sending...' : (
+                  {loading ? (
+                    "Sending..."
+                  ) : (
                     <>
                       <FaPaperPlane /> Send Message
                     </>
@@ -210,9 +234,14 @@ const Contact = () => {
             )}
 
             {/* Quote */}
-            <br /><br />
+            <br />
+            <br />
             <div className="contact-quote">
-              <p>The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will.</p>
+              <p>
+                The difference between a successful person and others is not a
+                lack of strength, not a lack of knowledge, but rather a lack in
+                will.
+              </p>
             </div>
           </motion.div>
         </div>

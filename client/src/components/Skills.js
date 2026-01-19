@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ;
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { skillsAPI } from "../utils/api";
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -16,10 +14,9 @@ const Skills = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/skills`);
-      setSkills(response.data); // this will be array of strings
+      const response = await skillsAPI.getAll();
+      setSkills(response.data);
     } catch (error) {
-      console.error('Error fetching skills:', error);
       setSkills([]);
     } finally {
       setLoading(false);
@@ -30,13 +27,13 @@ const Skills = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
-    visible: { x: 0, opacity: 1 }
+    visible: { x: 0, opacity: 1 },
   };
 
   if (loading) return <div className="loading">Loading skills...</div>;
@@ -56,7 +53,7 @@ const Skills = () => {
           className="skills-grid"
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          animate={inView ? "visible" : "hidden"}
         >
           <motion.div className="skill-category" variants={itemVariants}>
             <h3>All Skills</h3>
@@ -70,7 +67,7 @@ const Skills = () => {
                     <motion.div
                       className="skill-progress"
                       initial={{ width: 0 }}
-                      animate={inView ? { width: '100%' } : {}}
+                      animate={inView ? { width: "100%" } : {}}
                       transition={{ duration: 1, delay: 0.3 }}
                     />
                   </div>

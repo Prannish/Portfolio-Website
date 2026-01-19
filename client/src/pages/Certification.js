@@ -1,6 +1,5 @@
-// client/src/components/Certifications.js
-import React, { useEffect, useState } from 'react';
-import { certificationsAPI } from '../utils/api';
+import React, { useEffect, useState } from "react";
+import { certificationsAPI } from "../utils/api";
 
 const Certifications = () => {
   const [certs, setCerts] = useState([]);
@@ -10,10 +9,8 @@ const Certifications = () => {
     const fetchCertifications = async () => {
       try {
         const res = await certificationsAPI.getAll();
-        console.log('Certifications response:', res.data);
         setCerts(res.data || []);
       } catch (error) {
-        console.error('Failed to fetch certifications:', error);
         setCerts([]);
       } finally {
         setLoading(false);
@@ -27,7 +24,7 @@ const Certifications = () => {
     return (
       <div className="certifications-page">
         <h1>My Certifications</h1>
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>
+        <p style={{ textAlign: "center", color: "rgba(255,255,255,0.7)" }}>
           Loading certifications…
         </p>
       </div>
@@ -39,15 +36,13 @@ const Certifications = () => {
       <h1>My Certifications</h1>
 
       {certs.length === 0 ? (
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)' }}>
+        <p style={{ textAlign: "center", color: "rgba(255,255,255,0.6)" }}>
           No certifications available.
         </p>
       ) : (
         <div className="certs-grid">
           {certs.map((cert) => (
             <div key={cert._id} className="cert-card">
-
-              {/* ✅ IMAGE */}
               {cert.hasImage && (
                 <div className="cert-image-wrapper">
                   <img
@@ -57,7 +52,7 @@ const Certifications = () => {
                     loading="lazy"
                     crossOrigin="anonymous"
                     onError={(e) => {
-                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 </div>
@@ -70,8 +65,8 @@ const Certifications = () => {
               {cert.issueDate && (
                 <p>
                   {new Date(cert.issueDate).toLocaleDateString(undefined, {
-                    year: 'numeric',
-                    month: 'short',
+                    year: "numeric",
+                    month: "short",
                   })}
                 </p>
               )}
